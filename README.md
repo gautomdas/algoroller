@@ -1,6 +1,130 @@
-# Getting Started with Create React App
+# algoroller Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Getting Started
+
+To start project run: 
+
+```
+yarn install
+yarn start
+```
+
+To add non-typescript packages, add the following line in the `decs.d.ts` file:
+```
+declare module "myModule";
+```
+
+
+## Fonts
+
+```
+Objektiv Mk1 Italic
+
+font-family: objektiv-mk1, sans-serif;
+
+font-weight: 400;
+
+font-style: italic;
+
+
+Objektiv Mk1 Regular
+
+font-family: objektiv-mk1, sans-serif;
+
+font-weight: 400;
+
+font-style: normal;
+
+
+Objektiv Mk1 Bold
+
+font-family: objektiv-mk1, sans-serif;
+
+font-weight: 700;
+
+font-style: normal;
+
+
+Objektiv Mk1 Bold Italic
+
+font-family: objektiv-mk1, sans-serif;
+
+font-weight: 700;
+
+font-style: italic;
+
+
+Objektiv Mk2 Italic
+
+font-family: objektiv-mk2, sans-serif;
+
+font-weight: 400;
+
+font-style: italic;
+
+
+Objektiv Mk2 Regular
+
+font-family: objektiv-mk2, sans-serif;
+
+font-weight: 400;
+
+font-style: normal;
+
+
+Objektiv Mk2 Bold
+
+font-family: objektiv-mk2, sans-serif;
+
+font-weight: 700;
+
+font-style: normal;
+
+
+Objektiv Mk2 Bold Italic
+
+font-family: objektiv-mk2, sans-serif;
+
+font-weight: 700;
+
+font-style: italic;
+
+
+Objektiv Mk3 Italic
+
+font-family: objektiv-mk3, sans-serif;
+
+font-weight: 400;
+
+font-style: italic;
+
+
+Objektiv Mk3 Regular
+
+font-family: objektiv-mk3, sans-serif;
+
+font-weight: 400;
+
+font-style: normal;
+
+
+Objektiv Mk3 Bold Italic
+
+font-family: objektiv-mk3, sans-serif;
+
+font-weight: 700;
+
+font-style: italic;
+
+
+Objektiv Mk3 Bold
+
+font-family: objektiv-mk3, sans-serif;
+
+font-weight: 700;
+
+font-style: normal;
+```
 
 ## Available Scripts
 

@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { GradientText } from "./components/Gradient";
+import Input from "./components/Input";
+import Navbar from "./components/Navbar";
+import Roulette from "./components/Roulette";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App bg-navy-500 flex flex-col h-screen px-10 lg:px-32 xl:px-64 text-white">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {/* font family: https://fonts.adobe.com/fonts/objektiv */}
+        <link rel="stylesheet" href="https://use.typekit.net/oym8nhu.css" />
       </header>
+      <Navbar title="algoroller" />
+      <div className="px-48 flex flex-grow pt-12">
+        <Roulette title="new" />
+      </div>
     </div>
   );
 }
