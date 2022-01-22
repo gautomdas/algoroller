@@ -54,15 +54,21 @@ def approval_program():
         [Txn.on_completion() == OnComplete.NoOp, handle_noop]
     )
 
-    return program
-    # return compileTeal(program, Mode.Application, version=5)
+    # return program
+    return compileTeal(program, Mode.Application, version=5)
 
 
 def clear_state_program():
-    return Approve()
-    # return compileTeal(Approve(), Mode.Application, version=5)
+    # return Approve()
+    return compileTeal(Approve(), Mode.Application, version=5)
 
 
 with open("approval.teal", "w") as approval, open("clear_state.teal", "w") as clear:
-    approval.write(compileTeal(approval_program(), mode = Mode.Application, version = 5))
-    clear.write(compileTeal(clear_state_program(), mode = Mode.Application, version = 5))
+    approval.write(approval_program())
+    clear.write(clear_state_program())
+
+
+
+# with open("approval.teal", "w") as approval, open("clear_state.teal", "w") as clear:
+#     approval.write(compileTeal(approval_program(), mode = Mode.Application, version = 5))
+#     clear.write(compileTeal(clear_state_program(), mode = Mode.Application, version = 5))
