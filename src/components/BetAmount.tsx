@@ -22,7 +22,7 @@ function BetAmount({ amount }: BetAmountProps) {
             console.log(bet);
           }}
         />
-        <div className="flex flex-grow rounded-r bg-black items-center">
+        <div className="invisible md:visible flex flex-grow rounded-r bg-black items-center">
           <button
             className="bg-navy-400 hover:bg-navy-200 font-medium p-2 px-3 rounded flex-grow m-2"
             onClick={() => setBet("")}

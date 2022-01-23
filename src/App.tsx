@@ -12,7 +12,7 @@ function App() {
         <link rel="stylesheet" href="https://use.typekit.net/oym8nhu.css" />
       </header>
       <Navbar title="algoroller" />
-      <div className="px-48 flex flex-grow pt-12">
+      <div className="xl:px-32 2xl:px-48 flex flex-grow pt-12">
         <Roulette title="new" />
       </div>
     </div>
