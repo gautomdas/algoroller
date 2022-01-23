@@ -4,7 +4,7 @@ import logo from "../logo.svg";
 import { RecoilRoot, atom, selector } from "recoil";
 
 
-import { Pipeline, PipelineShell, AlgoWCButton, AlgoAppCallWTxn, Box, BaseStyles } from "pipeline-ui"
+import { AlgoButton, Pipeline, PipelineShell, AlgoWCButton, AlgoAppCallWTxn, Box, BaseStyles } from "pipeline-ui"
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { colorState, position, positionSelector } from "../store";
@@ -58,7 +58,14 @@ function AddBet() {
         <span className="grow inline-block align-middle ">
           <div className="flex justify-end ">
             {" "}
-            <PipelineShell>
+
+            <AlgoButton 
+            wallet={MyAlgoWallet} 
+            // context={this} 
+            // returnTo={"addressloc"} 
+            />
+
+            <PipelineShell textAlign='left' position={'relative'}>
               <Box m={4}>
                 <BaseStyles>
                   <AlgoWCButton wallet={MyAlgoWallet} onChange={(data) => { console.log(data) }} />
