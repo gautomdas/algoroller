@@ -2751,6 +2751,22 @@ algosdk@^1.12.0:
     tweetnacl "^1.0.3"
     url-parse "^1.5.1"
 
+algosdk@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-1.13.0.tgz#c539050f4623d12f2e994f011b130f08f9291cd9"
+  integrity sha512-0hknXiP3sc/KxRUvoI1d14x2H/hM7LJZ1zA9DmEUX76z508QPgzjxyQag7THHu5rAW0VuzCgWcFlwI0lsTJMoQ==
+  dependencies:
+    algo-msgpack-with-bigint "^2.1.1"
+    buffer "^6.0.2"
+    hi-base32 "^0.5.1"
+    js-sha256 "^0.9.0"
+    js-sha3 "^0.8.0"
+    js-sha512 "^0.8.0"
+    json-bigint "^1.0.0"
+    superagent "^6.1.0"
+    tweetnacl "^1.0.3"
+    url-parse "^1.5.1"
+
 alphanum-sort@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/alphanum-sort/-/alphanum-sort-1.0.2.tgz"

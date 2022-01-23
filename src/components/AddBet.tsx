@@ -3,15 +3,16 @@ import Anime from "react-anime";
 import logo from "../logo.svg";
 import { RecoilRoot, atom, selector } from "recoil";
 
-
-import { AlgoButton, Pipeline, PipelineShell, AlgoWCButton, AlgoAppCallWTxn, Box, BaseStyles } from "pipeline-ui"
+import { AlgoButton, Pipeline, PipelineShell, AlgoWCButton, AlgoAppCall, AlgoAppCallWTxn, Box, BaseStyles, MultiWalletConnect } from "pipeline-ui"
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { colorState, position, positionSelector } from "../store";
 
-const MyAlgoWallet = Pipeline.init();
 
+const MyAlgoWallet = Pipeline.init();
 function AddBet() {
+
+
   const [color, setColor] = useRecoilState(colorState);
   const pos: position = useRecoilValue(positionSelector);
 
@@ -41,6 +42,7 @@ function AddBet() {
   }
 
   return (
+
     <div className="AddBet pt-2">
       <div className="flex flex-row w-full mt-4 mb-2 text-base items-center">
         Currently Wagering a Bet of
@@ -59,27 +61,17 @@ function AddBet() {
           <div className="flex justify-end ">
             {" "}
 
-            <AlgoButton 
-            wallet={MyAlgoWallet} 
-            // context={this} 
-            // returnTo={"addressloc"} 
-            />
 
-            <PipelineShell textAlign='left' position={'relative'}>
-              <Box m={4}>
-                <BaseStyles>
-                  <AlgoWCButton wallet={MyAlgoWallet} onChange={(data) => { console.log(data) }} />
+            <AlgoButton wallet={MyAlgoWallet} onChange={console.log('test')} />
+            <AlgoAppCallWTxn
+              appId={58668101}
+              appArgs={[]}
+              receiver='JWBGE63RZAPIGG7KZDURNKUJDUL6GOEG7Z6OKRWGXW2HVAJ5UWAUYLLKTE'
+              amount={50000}
+              note=''
+              index={0} />
 
-                  <AlgoAppCallWTxn
-                    appId={58668101}
-                    appArgs={[]}
-                    receiver='JWBGE63RZAPIGG7KZDURNKUJDUL6GOEG7Z6OKRWGXW2HVAJ5UWAUYLLKTE'
-                    amount={50000}
-                    note=''
-                    index={0} />
-                </BaseStyles>
-              </Box>
-            </PipelineShell>
+
             {/* <button className="bg-blue-500 rounded  py-1.5 px-3 ">
               Submit and Sign Transaction
             </button> */}
