@@ -217,6 +217,8 @@ def main():
     # ), get_application_address(app_id), int(algod_client.account_info(get_application_address(app_id))["amount"] / 10))  # TODO .5 algos
 
 
+    print("APP ADDRESS", get_application_address(app_id))
+
     txn = transaction.PaymentTxn(sender, algod_client.suggested_params(
     ), get_application_address(app_id), 50000)
 

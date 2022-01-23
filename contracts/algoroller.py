@@ -64,7 +64,7 @@ def clear_state_program():
 
 
 with open("approval.teal", "w") as approval, open("clear_state.teal", "w") as clear:
-    approval.write(approval_program())
+    approval.write(approval_program())  
     clear.write(clear_state_program())
 
 

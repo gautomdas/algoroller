@@ -1,10 +1,13 @@
 import React from "react";
 import Anime from "react-anime";
 import logo from "../logo.svg";
+import {Pipeline, PipelineShell, AlgoWCButton} from "pipeline-ui"
 
 type NavbarProps = {
   title: string;
 };
+
+const MyAlgoWallet = Pipeline.init();
 
 function Navbar({ title }: NavbarProps) {
   return (
@@ -28,10 +31,11 @@ function Navbar({ title }: NavbarProps) {
       <span className="grow inline-block align-middle ">
         <div className="flex justify-end">
           <div>
-            <button className="flex flex-row items-center bg-navy-300 hover:bg-navy-200 text-white font-normal py-2 px-4 rounded shadow-lg">
+            {/* <button className="flex flex-row items-center bg-navy-300 hover:bg-navy-200 text-white font-normal py-2 px-4 rounded shadow-lg">
               <img className="object-cover h-4 pr-2" src="../icons/link.png" />
               Connect Wallet
-            </button>
+            </button> */}
+            <AlgoWCButton wallet={MyAlgoWallet} onChange={(data) => {console.log(data)}} />
           </div>
         </div>
       </span>
