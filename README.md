@@ -1,5 +1,11 @@
 # algoroller Project
 
+Please read this section.
+
+### Suggested Workflow
+
+Keep track of what issue you're working on on the issues tab and check Projects for a view of all the features.
+
 ## Getting Started
 
 To start project run: 
