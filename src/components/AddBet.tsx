@@ -3,7 +3,8 @@ import Anime from "react-anime";
 import logo from "../logo.svg";
 import { RecoilRoot, atom, selector } from "recoil";
 
-import { Pipeline, AlgoAppCallWTxn } from "pipeline-ui"
+
+import { Pipeline, PipelineShell, AlgoWCButton, AlgoAppCallWTxn, Box, BaseStyles } from "pipeline-ui"
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { colorState, position, positionSelector } from "../store";
@@ -57,13 +58,21 @@ function AddBet() {
         <span className="grow inline-block align-middle ">
           <div className="flex justify-end ">
             {" "}
-            <AlgoAppCallWTxn 
-            appId={58668101} 
-            appArgs={[]} 
-            receiver='JWBGE63RZAPIGG7KZDURNKUJDUL6GOEG7Z6OKRWGXW2HVAJ5UWAUYLLKTE' 
-            amount={50000} 
-            note='' 
-            index={0}/>
+            <PipelineShell>
+              <Box m={4}>
+                <BaseStyles>
+                  <AlgoWCButton wallet={MyAlgoWallet} onChange={(data) => { console.log(data) }} />
+
+                  <AlgoAppCallWTxn
+                    appId={58668101}
+                    appArgs={[]}
+                    receiver='JWBGE63RZAPIGG7KZDURNKUJDUL6GOEG7Z6OKRWGXW2HVAJ5UWAUYLLKTE'
+                    amount={50000}
+                    note=''
+                    index={0} />
+                </BaseStyles>
+              </Box>
+            </PipelineShell>
             {/* <button className="bg-blue-500 rounded  py-1.5 px-3 ">
               Submit and Sign Transaction
             </button> */}

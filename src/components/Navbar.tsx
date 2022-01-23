@@ -1,6 +1,9 @@
 import React from "react";
 import Anime from "react-anime";
 import logo from "../logo.svg";
+
+
+// @ts-ignore
 import {Pipeline, PipelineShell, AlgoWCButton} from "pipeline-ui"
 
 type NavbarProps = {
