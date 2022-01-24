@@ -4,7 +4,7 @@ import base64
 
 from pyteal import *
 
-ALGORANDO_ID = 43189528 # testnet only
+ALGORANDO_ID = 43189528  # testnet only
 
 
 def approval_program():
@@ -13,15 +13,13 @@ def approval_program():
         Approve()
 
     ])
+
     handle_update = Assert(Global.creator_address() == Txn.sender())
     random_bytes = ImportScratchValue(1, 0)
     handle_noop = Seq([
-
-        # Assert(Gtxn[1].application_id() == Int(ALGORANDO_ID)),
-        # TODO assert appid for algorando
         Assert(And(Gtxn[1].application_id() == Int(ALGORANDO_ID),
                    Or(Gtxn[0].amount() == Int(50000),
-                       
+
                        Gtxn[0].amount() == Balance(
                        Global.current_application_address()) / Int(10))
 
@@ -39,9 +37,10 @@ def approval_program():
             }
         ),
         InnerTxnBuilder.Submit(),
-        App.globalPut(Bytes("random"), Btoi(
-            Extract(random_bytes, Int(7), Int(1)))),
-        # App.globalPut(Bytes("random"), Btoi(Extract(random_bytes, Int(0), Int(8))) / Int(1000000000000000000) * Int(100000)),
+        App.globalPut(Bytes("random"),
+                      Btoi(Extract(random_bytes, Int(0), Int(8)))),
+
+        # App.globalPut(Bytes("random"), Substring(random_bytes, Int(0), Int(1))),
 
         Approve(),
     ])
@@ -64,9 +63,8 @@ def clear_state_program():
 
 
 with open("approval.teal", "w") as approval, open("clear_state.teal", "w") as clear:
-    approval.write(approval_program())  
+    approval.write(approval_program())
     clear.write(clear_state_program())
-
 
 
 # with open("approval.teal", "w") as approval, open("clear_state.teal", "w") as clear:

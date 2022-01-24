@@ -56,8 +56,8 @@ itxn_field Receiver
 itxn_submit
 byte "random"
 gload 1 0
-int 7
-int 1
+int 0
+int 8
 extract3
 btoi
 app_global_put
