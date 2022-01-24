@@ -220,7 +220,7 @@ def main():
     print("APP ADDRESS", get_application_address(app_id))
 
     txn = transaction.PaymentTxn(sender, algod_client.suggested_params(
-    ), get_application_address(app_id), 50000)
+    ), get_application_address(app_id), 60000)
 
 
     print("BALANCE 2", algod_client.account_info(sender)["amount"])

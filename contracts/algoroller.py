@@ -6,6 +6,8 @@ from pyteal import *
 
 ALGORANDO_ID = 43189528  # testnet only
 
+DUMMY_ROULETTE_SLOT = 15
+
 
 def approval_program():
     handle_create = Seq([
@@ -15,15 +17,33 @@ def approval_program():
     ])
 
     handle_update = Assert(Global.creator_address() == Txn.sender())
+
     random_bytes = ImportScratchValue(1, 0)
+
+
+    @Subroutine(TealType.none)
+    def calculate_payout(bet, result):  # 0 is zero, 1 is odd, 2 is even
+        return Cond(
+            result == Int(0)
+
+
+        )
+
+       
     handle_noop = Seq([
-        Assert(And(Gtxn[1].application_id() == Int(ALGORANDO_ID),
-                   Or(Gtxn[0].amount() == Int(50000),
+        # Assert(And(Gtxn[1].application_id() == Int(ALGORANDO_ID),
+        #            Or(Gtxn[0].amount() == Int(50000),
+        #                Gtxn[0].amount() == Balance(
+        #                Global.current_application_address()) / Int(10))
 
-                       Gtxn[0].amount() == Balance(
-                       Global.current_application_address()) / Int(10))
+        #            )),
 
-                   )),
+        Assert(  # min bet .5 algos, max bet 1% of holdings
+            And(
+                Gtxn[0].amount() > Int(50000),
+                Gtxn[0].amount() < Balance(Global.current_application_address()) / Int(2) # TODO change to 100
+            )
+        ),
 
         # Gtxn[0].amount() == Int(3000000)),
         InnerTxnBuilder.Begin(),
@@ -37,7 +57,22 @@ def approval_program():
             }
         ),
         InnerTxnBuilder.Submit(),
-        App.globalPut(Bytes("random"),
+
+        InnerTxnBuilder.Begin(),  # send half the bet to us
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.Payment,
+                TxnField.amount: Gtxn[0].amount() / Int(2),
+                TxnField.receiver: Global.creator_address()
+            }
+        ),
+        InnerTxnBuilder.Submit(),
+
+
+        # App.globalPut(Bytes("random"),
+        #               Btoi(Extract(random_bytes, Int(0), Int(8)))),
+
+                App.globalPut(Bytes("random"),
                       Btoi(Extract(random_bytes, Int(0), Int(8)))),
 
         # App.globalPut(Bytes("random"), Substring(random_bytes, Int(0), Int(1))),
