@@ -26,7 +26,7 @@ bnz main_l7
 err
 main_l7:
 gtxn 0 Amount
-int 50000
+int 5000
 >
 gtxn 0 Amount
 global CurrentApplicationAddress
@@ -39,13 +39,10 @@ assert
 itxn_begin
 int pay
 itxn_field TypeEnum
-gload 1 0
-int 7
-int 1
-extract3
+txna ApplicationArgs 0
 btoi
-int 100
-*
+int 1
+callsub sub1
 itxn_field Amount
 txn Sender
 itxn_field Receiver
@@ -103,4 +100,65 @@ concat
 gtxn 0 TxID
 concat
 sha512_256
+retsub
+sub1: // calculate_payout
+store 1
+store 0
+load 0
+int 0
+==
+bnz sub1_l10
+load 0
+int 1
+==
+bnz sub1_l7
+load 0
+int 2
+==
+bnz sub1_l4
+err
+sub1_l4:
+load 1
+int 0
+>
+load 1
+int 2
+%
+int 0
+==
+&&
+bnz sub1_l6
+int 0
+b sub1_l13
+sub1_l6:
+gtxn 0 Amount
+int 2
+*
+b sub1_l13
+sub1_l7:
+load 1
+int 2
+%
+int 1
+==
+bnz sub1_l9
+int 0
+b sub1_l13
+sub1_l9:
+gtxn 0 Amount
+int 2
+*
+b sub1_l13
+sub1_l10:
+load 1
+int 0
+==
+bnz sub1_l12
+int 0
+b sub1_l13
+sub1_l12:
+gtxn 0 Amount
+int 14
+*
+sub1_l13:
 retsub

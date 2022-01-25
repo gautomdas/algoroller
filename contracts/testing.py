@@ -153,18 +153,19 @@ def call_txn(client, private_key, index):
     return txn
 
 
-def call_app(client, private_key, index):
+def call_app(client, private_key, index, args = []):
     # TODO use this for not manually using pub key
     sender = account.address_from_private_key(private_key)
 
     params = client.suggested_params()
 
-    txn = transaction.ApplicationNoOpTxn(sender, params, index)
+    txn = transaction.ApplicationNoOpTxn(sender, params, index, args)
 
     return txn
 
 
 def main():
+
     algod_client = algod.AlgodClient(algod_token, algod_address)
 
     creator_private_key = get_private_key_from_mnemonic(creator_mnemonic)
@@ -220,13 +221,13 @@ def main():
     print("APP ADDRESS", get_application_address(app_id))
 
     txn = transaction.PaymentTxn(sender, algod_client.suggested_params(
-    ), get_application_address(app_id), 60000)
+    ), get_application_address(app_id), 10000)
 
 
     print("BALANCE 2", algod_client.account_info(sender)["amount"])
 
     txn2 = call_app(algod_client, creator_private_key,
-                    app_id)  # previously had args
+                    app_id, [0])  # previously had args
 
     gid = transaction.calculate_group_id([txn, algorando_txn, txn2])
     algorando_txn.group = gid
