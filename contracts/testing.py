@@ -229,12 +229,11 @@ def main():
     txn2 = call_app(algod_client, creator_private_key,
                     app_id, [0])  # previously had args
 
-    gid = transaction.calculate_group_id([txn, algorando_txn, txn2])
-    algorando_txn.group = gid
+    gid = transaction.calculate_group_id([txn, txn2])
     txn.group = gid
     txn2.group = gid
 
-    exec_gtxn(algod_client, [txn, algorando_txn, txn2], creator_private_key)
+    exec_gtxn(algod_client, [txn, txn2], creator_private_key)
 
     print("BALANCE CHANGE", initial_balance -
           algod_client.account_info(sender)["amount"])
@@ -242,7 +241,7 @@ def main():
     print("new random:", read_global_state(algod_client,
           account.address_from_private_key(creator_private_key), app_id))
 
-    # delete_app(algod_client, creator_private_key, app_id)
 
+    # delete_app(algod_client, creator_private_key, app_id)
 
 main()

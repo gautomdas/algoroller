@@ -36,12 +36,14 @@ int 2
 <
 &&
 assert
+callsub sub0
+store 0
 itxn_begin
 int pay
 itxn_field TypeEnum
 txna ApplicationArgs 0
 btoi
-int 1
+load 0
 callsub sub1
 itxn_field Amount
 txn Sender
@@ -58,11 +60,7 @@ global CreatorAddress
 itxn_field Receiver
 itxn_submit
 byte "random"
-callsub sub0
-int 0
-int 8
-extract3
-btoi
+load 0
 app_global_put
 int 1
 return
@@ -84,7 +82,7 @@ int 0
 app_global_put
 int 1
 return
-sub0: // algorando
+sub0: // roll
 byte "Nonce"
 app_global_get
 itob
@@ -100,28 +98,34 @@ concat
 gtxn 0 TxID
 concat
 sha512_256
+int 0
+int 8
+extract3
+btoi
+int 37
+%
 retsub
 sub1: // calculate_payout
+store 2
 store 1
-store 0
-load 0
+load 1
 int 0
 ==
 bnz sub1_l10
-load 0
+load 1
 int 1
 ==
 bnz sub1_l7
-load 0
+load 1
 int 2
 ==
 bnz sub1_l4
 err
 sub1_l4:
-load 1
+load 2
 int 0
 >
-load 1
+load 2
 int 2
 %
 int 0
@@ -136,7 +140,7 @@ int 2
 *
 b sub1_l13
 sub1_l7:
-load 1
+load 2
 int 2
 %
 int 1
@@ -150,7 +154,7 @@ int 2
 *
 b sub1_l13
 sub1_l10:
-load 1
+load 2
 int 0
 ==
 bnz sub1_l12
