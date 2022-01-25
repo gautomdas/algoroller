@@ -20,6 +20,19 @@ def approval_program():
 
     random_bytes = ImportScratchValue(1, 0)
 
+    @Subroutine(TealType.bytes)
+    def algorando():
+        return Sha512_256(
+            Concat(
+                Itob(App.globalGet(Bytes("Nonce"))),
+                Itob(Global.latest_timestamp()),
+                Txn.sender(),
+                Itob(Balance(Global.current_application_address())),
+                Gtxn[0].tx_id()
+                )
+        )
+
+
 
     @Subroutine(TealType.none)
     def calculate_payout(bet, result):  # 0 is zero, 1 is odd, 2 is even
@@ -73,9 +86,8 @@ def approval_program():
         #               Btoi(Extract(random_bytes, Int(0), Int(8)))),
 
                 App.globalPut(Bytes("random"),
-                      Btoi(Extract(random_bytes, Int(0), Int(8)))),
+                      Btoi(Extract(algorando(), Int(0), Int(8)))),
 
-        # App.globalPut(Bytes("random"), Substring(random_bytes, Int(0), Int(1))),
 
         Approve(),
     ])

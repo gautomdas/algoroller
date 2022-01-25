@@ -61,7 +61,7 @@ global CreatorAddress
 itxn_field Receiver
 itxn_submit
 byte "random"
-gload 1 0
+callsub sub0
 int 0
 int 8
 extract3
@@ -87,3 +87,20 @@ int 0
 app_global_put
 int 1
 return
+sub0: // algorando
+byte "Nonce"
+app_global_get
+itob
+global LatestTimestamp
+itob
+concat
+txn Sender
+concat
+global CurrentApplicationAddress
+balance
+itob
+concat
+gtxn 0 TxID
+concat
+sha512_256
+retsub
