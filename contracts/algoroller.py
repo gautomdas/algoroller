@@ -9,7 +9,6 @@ def approval_program():
     handle_create = Seq([
         App.globalPut(Bytes("random"), Int(0)),
         Approve()
-
     ])
 
     handle_update = Assert(Global.creator_address() == Txn.sender())

@@ -3,13 +3,25 @@ import Anime from "react-anime";
 import logo from "../logo.svg";
 import { RecoilRoot, atom, selector } from "recoil";
 
-import { AlgoButton, Pipeline, PipelineShell, AlgoWCButton, AlgoAppCall, AlgoAppCallWTxn, Box, BaseStyles, MultiWalletConnect } from "pipeline-ui"
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { colorState, position, positionSelector } from "../store";
 
+import MyAlgoConnect from '@randlabs/myalgo-connect';
 
-const MyAlgoWallet = Pipeline.init();
+
+const algoWallet = new MyAlgoConnect();
+
+async function connectToMyAlgo() {
+  try {
+    const accounts = await algoWallet.connect();
+    const addresses = accounts.map(account => account.address);
+    
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 function AddBet() {
 
 
@@ -62,19 +74,20 @@ function AddBet() {
             {" "}
 
 
-            <AlgoButton wallet={MyAlgoWallet} onChange={console.log('test')} />
+            {/* <AlgoButton wallet={MyAlgoWallet} onChange={console.log('test')} />
+            <SwitchNet/>
             <AlgoAppCallWTxn
               appId={58668101}
               appArgs={[]}
               receiver='JWBGE63RZAPIGG7KZDURNKUJDUL6GOEG7Z6OKRWGXW2HVAJ5UWAUYLLKTE'
               amount={50000}
               note=''
-              index={0} />
+              index={0} /> */}
 
 
-            {/* <button className="bg-blue-500 rounded  py-1.5 px-3 ">
+            <button onClick={() => connectToMyAlgo()} className="bg-blue-500 rounded  py-1.5 px-3 " >
               Submit and Sign Transaction
-            </button> */}
+            </button>
           </div>
         </span>
       </div>

@@ -4,13 +4,13 @@ import logo from "../logo.svg";
 
 
 // @ts-ignore
-import {Pipeline, PipelineShell, AlgoWCButton} from "pipeline-ui"
+// import {Pipeline, PipelineShell, AlgoWCButton} from "pipeline-ui"
 
 type NavbarProps = {
   title: string;
 };
 
-const MyAlgoWallet = Pipeline.init();
+// const MyAlgoWallet = Pipeline.init();
 
 function Navbar({ title }: NavbarProps) {
   return (
@@ -38,7 +38,7 @@ function Navbar({ title }: NavbarProps) {
               <img className="object-cover h-4 pr-2" src="../icons/link.png" />
               Connect Wallet
             </button> */}
-            <AlgoWCButton wallet={MyAlgoWallet} onChange={(data) => {console.log(data)}} />
+            {/* <AlgoWCButton wallet={MyAlgoWallet} onChange={(data) => {console.log(data)}} /> */}
           </div>
         </div>
       </span>
