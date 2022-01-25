@@ -128,8 +128,6 @@ def exec_txn(client, txn, private_key):
     client.send_transactions([signed_txn])
     wait_for_confirmation(client, tx_id, 5)
 
-    print("executed txn", tx_id)
-
 
 def exec_gtxn(client, txns, private_key):
     stxns = []
@@ -141,7 +139,6 @@ def exec_gtxn(client, txns, private_key):
     wait_for_confirmation(client, tx_id, 10)
 
 # index is appid
-
 # dead
 def call_txn(client, private_key, index):
     sender = account.address_from_private_key(private_key)
@@ -196,49 +193,24 @@ def main():
 
     exec_txn(algod_client, updateTxn, creator_private_key)
 
-    print("random val", read_global_state(algod_client,
-          account.address_from_private_key(creator_private_key), app_id))
-
     initial_balance = algod_client.account_info(sender)["amount"]
-    print("BALANCE 1", initial_balance)
 
-    # send money to app
-    print("send txn")
-
-    algorando_txn = call_app(algod_client, creator_private_key, ALGORANDO_ID)
-
-    print("GROUP TXN")
-    # txn = transaction.PaymentTxn(sender, algod_client.suggested_params(
-    # ), get_application_address(app_id), 3000000)  # TODO .5 algos
-
-    print("CURRENT APP BALANCE", algod_client.account_info(get_application_address(app_id))["amount"])
-    print("REQ BALANCE", int(algod_client.account_info(get_application_address(app_id))["amount"] / 10))
-
-    # txn = transaction.PaymentTxn(sender, algod_client.suggested_params(
-    # ), get_application_address(app_id), int(algod_client.account_info(get_application_address(app_id))["amount"] / 10))  # TODO .5 algos
-
-
-    print("APP ADDRESS", get_application_address(app_id))
-
-    txn = transaction.PaymentTxn(sender, algod_client.suggested_params(
+    pay_txn = transaction.PaymentTxn(sender, algod_client.suggested_params(
     ), get_application_address(app_id), 10000)
 
+    roulette_txn = call_app(algod_client, creator_private_key,
+                    app_id, [0])
 
-    print("BALANCE 2", algod_client.account_info(sender)["amount"])
+    gid = transaction.calculate_group_id([pay_txn, roulette_txn])
+    pay_txn.group = gid
+    roulette_txn.group = gid
 
-    txn2 = call_app(algod_client, creator_private_key,
-                    app_id, [0])  # previously had args
+    exec_gtxn(algod_client, [pay_txn, roulette_txn], creator_private_key)
 
-    gid = transaction.calculate_group_id([txn, txn2])
-    txn.group = gid
-    txn2.group = gid
-
-    exec_gtxn(algod_client, [txn, txn2], creator_private_key)
-
-    print("BALANCE CHANGE", initial_balance -
+    print("Balance change:", initial_balance -
           algod_client.account_info(sender)["amount"])
 
-    print("new random:", read_global_state(algod_client,
+    print("Roll:", read_global_state(algod_client,
           account.address_from_private_key(creator_private_key), app_id))
 
 
