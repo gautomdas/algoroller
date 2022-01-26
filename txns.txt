@@ -1,0 +1,10 @@
+
+        let params = await algodClient.getTransactionParams().do();
+        let payTxn = algosdk.makePaymentTxnWithSuggestedParams(sender, receiver, betAmount, undefined, undefined, params);
+        let callTxn = algosdk.makeApplicationNoOpTxn(sender, params, 58668101, [bet_type]); // replace 58668101 with mainnet appid later, bet_type is int from 0-2
+        let group = algosdk.assignGroupID([payTxn, callTxn]);
+        signedPayTxn = payTxn.signTxn(secretKey) // however myalgo handles this
+        signedCallTxn = callTxn.signTxn(secretKey) // however myalgo handles this too
+        let finalTxn = await algodClient.sendRawTransaction([signedPayTxn, signedCallTxn].do());
+
+        // wait for confirmation

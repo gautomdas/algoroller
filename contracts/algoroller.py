@@ -24,7 +24,7 @@ def approval_program():
                 Gtxn[0].tx_id()
             )), Int(0), Int(8))) % Int(37)
 
-    roll_scratch = ScratchVar(TealType.uint64)
+    payout = ScratchVar(TealType.uint64)
 
     @Subroutine(TealType.uint64)
     def calculate_payout(bet, result):  # 0 is zero, 1 is odd, 2 is even
@@ -54,33 +54,36 @@ def approval_program():
             )
         ),
 
-        roll_scratch.store(roll()),
+        payout.store(calculate_payout(Btoi(Txn.application_args[0]), roll())),
+
+
 
         InnerTxnBuilder.Begin(),
-        InnerTxnBuilder.SetFields(
-            {
+        InnerTxnBuilder.SetFields({
                 TxnField.type_enum: TxnType.Payment,
-                TxnField.amount: calculate_payout(Btoi(Txn.application_args[0]), roll_scratch.load()),
+                TxnField.amount: payout.load(),
                 TxnField.receiver: Txn.sender(),
             }
         ),
         InnerTxnBuilder.Submit(),
 
-        InnerTxnBuilder.Begin(),  # send half the bet to us
-        InnerTxnBuilder.SetFields(
-            {
-                TxnField.type_enum: TxnType.Payment,
-                TxnField.amount: Gtxn[0].amount() / Int(2),
-                TxnField.receiver: Global.creator_address()
-            }
-        ),
-        InnerTxnBuilder.Submit(),
 
-        App.globalPut(Bytes("random"), roll_scratch.load()),
+        If(payout.load() == Int(0)).Then(
+            Seq([
+                InnerTxnBuilder.Begin(),  # send half the bet to us
+                InnerTxnBuilder.SetFields({
+                    TxnField.type_enum: TxnType.Payment,
+                    TxnField.amount: Gtxn[0].amount() / Int(2),
+                    TxnField.receiver: Global.creator_address()
+                }),
+                InnerTxnBuilder.Submit(),
+            ])
+        ),
+        App.globalPut(Bytes("random"), payout.load()),
 
         Approve(),
     ])
-    program = Cond(
+    program=Cond(
         [Txn.application_id() == Int(0), handle_create],
         [Txn.on_completion() == OnComplete.OptIn, Reject()],
         [Txn.on_completion() == OnComplete.CloseOut, Reject()],
@@ -98,5 +101,3 @@ def clear_state_program():
 with open("approval.teal", "w") as approval, open("clear_state.teal", "w") as clear:
     approval.write(approval_program())
     clear.write(clear_state_program())
-
-

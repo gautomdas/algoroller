@@ -2,23 +2,23 @@
 txn ApplicationID
 int 0
 ==
-bnz main_l12
+bnz main_l14
 txn OnCompletion
 int OptIn
 ==
-bnz main_l11
+bnz main_l13
 txn OnCompletion
 int CloseOut
 ==
-bnz main_l10
+bnz main_l12
 txn OnCompletion
 int UpdateApplication
 ==
-bnz main_l9
+bnz main_l11
 txn OnCompletion
 int DeleteApplication
 ==
-bnz main_l8
+bnz main_l10
 txn OnCompletion
 int NoOp
 ==
@@ -36,19 +36,30 @@ int 2
 <
 &&
 assert
+txna ApplicationArgs 0
+btoi
 callsub sub0
+callsub sub1
 store 0
 itxn_begin
 int pay
 itxn_field TypeEnum
-txna ApplicationArgs 0
-btoi
 load 0
-callsub sub1
 itxn_field Amount
 txn Sender
 itxn_field Receiver
 itxn_submit
+load 0
+int 1
+==
+bnz main_l9
+main_l8:
+byte "random"
+load 0
+app_global_put
+int 1
+return
+main_l9:
 itxn_begin
 int pay
 itxn_field TypeEnum
@@ -59,24 +70,20 @@ itxn_field Amount
 global CreatorAddress
 itxn_field Receiver
 itxn_submit
-byte "random"
-load 0
-app_global_put
-int 1
-return
-main_l8:
-int 1
-return
-main_l9:
-int 1
-return
+b main_l8
 main_l10:
-int 0
+int 1
 return
 main_l11:
-int 0
+int 1
 return
 main_l12:
+int 0
+return
+main_l13:
+int 0
+return
+main_l14:
 byte "random"
 int 0
 app_global_put

@@ -100,6 +100,19 @@ async function firstTransaction() {
         let closeout = receiver; //closeRemainderTo
         let sender = myAccount.addr;
         let txn = algosdk.makePaymentTxnWithSuggestedParams(sender, receiver, amount, undefined, note, params);
+        
+
+        let params = await algodClient.getTransactionParams().do();
+        let payTxn = algosdk.makePaymentTxnWithSuggestedParams(sender, receiver, betAmount, undefined, undefined, params);
+        let callTxn = algosdk.makeApplicationNoOpTxn(sender, params, 58668101, [bet_type]); // replace 58668101 with mainnet appid later, bet_type is int from 0-2
+        let group = algosdk.assignGroupID([payTxn, callTxn]);
+        signedPayTxn = payTxn.signTxn(secretKey) // however myalgo handles this
+        signedCallTxn = callTxn.signTxn(secretKey) // however myalgo handles this too
+        let finalTxn = await algodClient.sendRawTransaction([signedPayTxn, signedCallTxn].do());
+
+        // wait for confirmation
+        
+        
         // WARNING! all remaining funds in the sender account above will be sent to the closeRemainderTo Account 
         // In order to keep all remaning funds in the sender account after tx, set closeout parameter to undefined.
         // For more info see: 

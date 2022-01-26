@@ -199,7 +199,7 @@ def main():
     ), get_application_address(app_id), 10000)
 
     roulette_txn = call_app(algod_client, creator_private_key,
-                    app_id, [0])
+                    app_id, [1])
 
     gid = transaction.calculate_group_id([pay_txn, roulette_txn])
     pay_txn.group = gid
