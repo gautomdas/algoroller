@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-import Anime from "react-anime";
-import logo from "../logo.svg";
-import { RecoilRoot, atom, selector } from "recoil";
+import React from "react";
 import SubmitAmount from "./SubmitAmount";
 import AddBet from "./AddBet";
 
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { betState } from "../store";
 
 type BetAmountProps = {

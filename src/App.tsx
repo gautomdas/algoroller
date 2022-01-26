@@ -1,6 +1,3 @@
-import React from "react";
-import { GradientText } from "./components/Gradient";
-import Input from "./components/Input";
 import Navbar from "./components/Navbar";
 import Roulette from "./components/Roulette";
 

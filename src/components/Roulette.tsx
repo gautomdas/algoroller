@@ -1,6 +1,4 @@
 import React from "react";
-import Anime from "react-anime";
-import logo from "../logo.svg";
 import BetAmount from "./BetAmount";
 
 type RouletteProps = {

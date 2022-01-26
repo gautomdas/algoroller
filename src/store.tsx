@@ -1,10 +1,4 @@
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { atom, selector } from "recoil";
 
 export const betState = atom({
   key: "betState", // unique ID (with respect to other atoms/selectors)

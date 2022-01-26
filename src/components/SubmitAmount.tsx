@@ -1,8 +1,3 @@
-import React, { useState } from "react";
-import Anime from "react-anime";
-import logo from "../logo.svg";
-import { RecoilRoot, atom, selector } from "recoil";
-
 import { useRecoilState, useRecoilValue } from "recoil";
 import { colorState, position, positionSelector } from "../store";
 

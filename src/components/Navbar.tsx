@@ -29,7 +29,11 @@ function Navbar({ title }: NavbarProps) {
         <div className="flex justify-end">
           <div>
             <button className="flex flex-row items-center bg-navy-300 hover:bg-navy-200 text-white text-sm md:text-base font-normal py-2 px-4 rounded shadow-lg">
-              <img className="object-cover h-4 pr-2" src="../icons/link.png" />
+              <img
+                className="object-cover h-4 pr-2"
+                src="../icons/link.png"
+                alt="link"
+              />
               Connect Wallet
             </button>
           </div>

@@ -1,14 +1,32 @@
-import React, { useState } from "react";
-import Anime from "react-anime";
-import logo from "../logo.svg";
-import { RecoilRoot, atom, selector } from "recoil";
+import { useState, useEffect } from "react";
+import { algodClient } from "../utils/connection";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { colorState, position, positionSelector } from "../store";
 
+import algosdk from "algosdk";
+
+let timeoutResolution: NodeJS.Timeout | null = null;
+
 function AddBet() {
   const [color, setColor] = useRecoilState(colorState);
   const pos: position = useRecoilValue(positionSelector);
+  const [params, setParams] = useState<algosdk.SuggestedParams>();
+
+  const getTransactionParams = async (): Promise<void> => {
+    try {
+      const params = await algodClient.getTransactionParams().do();
+      setParams(params);
+    } catch (err) {
+      console.error(err);
+    }
+    timeoutResolution = setTimeout(getTransactionParams, 10000);
+  };
+
+  useEffect(() => {
+    if (timeoutResolution) clearTimeout(timeoutResolution);
+    getTransactionParams();
+  });
 
   function renderColor(param: number, isBg = false) {
     if (isBg) {
