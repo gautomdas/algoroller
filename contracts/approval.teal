@@ -50,13 +50,10 @@ txn Sender
 itxn_field Receiver
 itxn_submit
 load 0
-int 1
+int 0
 ==
 bnz main_l9
 main_l8:
-byte "random"
-load 0
-app_global_put
 int 1
 return
 main_l9:
@@ -84,9 +81,6 @@ main_l13:
 int 0
 return
 main_l14:
-byte "random"
-int 0
-app_global_put
 int 1
 return
 sub0: // roll
@@ -109,7 +103,7 @@ int 0
 int 8
 extract3
 btoi
-int 37
+int 38
 %
 retsub
 sub1: // calculate_payout
@@ -130,12 +124,12 @@ bnz sub1_l4
 err
 sub1_l4:
 load 2
-int 0
+int 1
 >
 load 2
 int 2
 %
-int 0
+int 1
 ==
 &&
 bnz sub1_l6
@@ -148,10 +142,14 @@ int 2
 b sub1_l13
 sub1_l7:
 load 2
+int 1
+>
+load 2
 int 2
 %
-int 1
+int 0
 ==
+&&
 bnz sub1_l9
 int 0
 b sub1_l13
@@ -162,8 +160,8 @@ int 2
 b sub1_l13
 sub1_l10:
 load 2
-int 0
-==
+int 1
+<=
 bnz sub1_l12
 int 0
 b sub1_l13

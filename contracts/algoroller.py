@@ -6,15 +6,17 @@ from pyteal import *
 
 
 def approval_program():
-    handle_create = Seq([
-        App.globalPut(Bytes("random"), Int(0)),
-        Approve()
-    ])
+    # handle_create = Seq([
+    #     App.globalPut(Bytes("random"), Int(0)),
+    #     Approve()
+    # ])
+
+    handle_create = Approve()
 
     handle_update = Assert(Global.creator_address() == Txn.sender())
 
     @Subroutine(TealType.uint64)
-    def roll():  # returns a random int from 0 to 36
+    def roll():  # returns a random int from 0 to 37 (0 or 1 is a 0)
         return Btoi(Extract(Sha512_256(
             Concat(
                 Itob(App.globalGet(Bytes("Nonce"))),
@@ -22,7 +24,7 @@ def approval_program():
                 Txn.sender(),
                 Itob(Balance(Global.current_application_address())),
                 Gtxn[0].tx_id()
-            )), Int(0), Int(8))) % Int(37)
+            )), Int(0), Int(8))) % Int(38)
 
     payout = ScratchVar(TealType.uint64)
 
@@ -30,15 +32,15 @@ def approval_program():
     def calculate_payout(bet, result):  # 0 is zero, 1 is odd, 2 is even
         return Cond(
             [bet == Int(0),
-                If(result == Int(0))
+                If(result <= Int(1))
              .Then(Gtxn[0].amount() * Int(14))
              .Else(Int(0))],
             [bet == Int(1),
-                If(result % Int(2) == Int(1))
+                If(And(result > Int(1), result % Int(2) == Int(0))) # a roll of "2" is 1 (odd) b/c 0 or 1 is a zero roll
              .Then(Gtxn[0].amount() * Int(2))
              .Else(Int(0))],
             [bet == Int(2),
-                If(And(result > Int(0), result % Int(2) == Int(0)))
+                If(And(result > Int(1), result % Int(2) == Int(1)))
              .Then(Gtxn[0].amount() * Int(2))
              .Else(Int(0))]
         )
@@ -79,7 +81,7 @@ def approval_program():
                 InnerTxnBuilder.Submit(),
             ])
         ),
-        App.globalPut(Bytes("random"), payout.load()),
+        # App.globalPut(Bytes("random"), payout.load()),
 
         Approve(),
     ])
