@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { algodClient } from "../utils/connection";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
+import { Accounts } from "@randlabs/myalgo-connect";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -8,17 +9,20 @@ import {
   position,
   positionSelector,
   paramsSelector,
+  accountsSelector,
 } from "../store";
-import { SuggestedParams } from "algosdk";
+import { Account, SuggestedParams } from "algosdk";
 
 import algosdk from "algosdk";
 
 import { connection } from "../utils/connection";
+import BetAmount from "./BetAmount";
 
 function AddBet() {
   const [color, setColor] = useRecoilState(colorState);
   const pos: position = useRecoilValue(positionSelector);
   const params: SuggestedParams = useRecoilValue(paramsSelector);
+  const account: Accounts = useRecoilValue(accountsSelector);
 
   function renderColor(param: number, isBg = false): string {
     if (isBg) {
@@ -53,14 +57,10 @@ function AddBet() {
   }
 
   // You can use async/await or any function that returns a Promise
-  const makeBet = async (
-    sender: string,
-    receiver: string,
-    betAmount: number
-  ) => {
+  const makeBet = async (sender: string, betAmount: number) => {
     let payTxn = algosdk.makePaymentTxnWithSuggestedParams(
       sender,
-      receiver,
+      algosdk.getApplicationAddress(58668101),
       betAmount,
       undefined,
       undefined,
@@ -71,14 +71,17 @@ function AddBet() {
     ]); // replace 58668101 with mainnet appid later, bet_type is int from 0-2
     let group = algosdk.assignGroupID([payTxn, callTxn]);
 
-    let signedPayTxn = connection.signTransaction(payTxn.toByte()); // however myalgo handles this
-    let signedCallTxn = connection.signTransaction(payTxn.toByte()); // however myalgo handles this too
+    let signedPayTxn = await connection.signTransaction(payTxn.toByte());
+    let signedCallTxn = await connection.signTransaction(callTxn.toByte());
+
+    console.log(signedPayTxn);
+    console.log(signedCallTxn);
+
     let finalTxn = await algodClient
-      .sendRawTransaction([
-        (await signedPayTxn).blob,
-        (await signedCallTxn).blob,
-      ])
+      .sendRawTransaction([signedPayTxn.blob, signedCallTxn.blob])
       .do();
+
+    console.log(finalTxn);
   };
 
   return (
@@ -102,6 +105,7 @@ function AddBet() {
               onClick={() => {
                 if (isValid()) {
                   console.log(params);
+                  makeBet(account.address, 10000);
                 }
               }}
               className={

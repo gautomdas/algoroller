@@ -17,6 +17,11 @@ export const accountsState = atom({
   default: [] as Accounts[], // default value (aka initial value)
 });
 
+export const accountsSelector = selector({
+  key: "accountSState", // unique ID (with respect to other atoms/selectors)
+  get: ({ get }) => get(accountsState)[0],
+});
+
 export const paramsState = atom({
   key: "paramsState", // unique ID (with respect to other atoms/selectors)
   default: {} as SuggestedParams, // default value (aka initial value)
