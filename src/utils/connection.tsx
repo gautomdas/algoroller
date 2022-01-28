@@ -1,4 +1,7 @@
 import algosdk from "algosdk";
+import MyAlgoConnect from "@randlabs/myalgo-connect";
+
+const connection = new MyAlgoConnect();
 
 const algodClient = new algosdk.Algodv2(
   "",
@@ -6,4 +9,12 @@ const algodClient = new algosdk.Algodv2(
   ""
 );
 
-export { algodClient };
+export function validateAddress(address: string): boolean {
+  if (typeof address !== "string") {
+    return false;
+  }
+
+  return algosdk.isValidAddress(address);
+}
+
+export { connection, algodClient };

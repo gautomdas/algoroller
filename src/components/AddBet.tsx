@@ -1,34 +1,26 @@
 import { useState, useEffect } from "react";
 import { algodClient } from "../utils/connection";
+import MyAlgoConnect from "@randlabs/myalgo-connect";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { colorState, position, positionSelector } from "../store";
+import {
+  colorState,
+  position,
+  positionSelector,
+  paramsSelector,
+} from "../store";
+import { SuggestedParams } from "algosdk";
 
 import algosdk from "algosdk";
 
-let timeoutResolution: NodeJS.Timeout | null = null;
+import { connection } from "../utils/connection";
 
 function AddBet() {
   const [color, setColor] = useRecoilState(colorState);
   const pos: position = useRecoilValue(positionSelector);
-  const [params, setParams] = useState<algosdk.SuggestedParams>();
+  const params: SuggestedParams = useRecoilValue(paramsSelector);
 
-  const getTransactionParams = async (): Promise<void> => {
-    try {
-      const params = await algodClient.getTransactionParams().do();
-      setParams(params);
-    } catch (err) {
-      console.error(err);
-    }
-    timeoutResolution = setTimeout(getTransactionParams, 10000);
-  };
-
-  useEffect(() => {
-    if (timeoutResolution) clearTimeout(timeoutResolution);
-    getTransactionParams();
-  });
-
-  function renderColor(param: number, isBg = false) {
+  function renderColor(param: number, isBg = false): string {
     if (isBg) {
       switch (param) {
         case 1:
@@ -53,6 +45,42 @@ function AddBet() {
     }
   }
 
+  function isValid(): boolean {
+    if (pos.betAmount == 0 || renderColor(pos.colorChoosen) === "") {
+      return false;
+    }
+    return true;
+  }
+
+  // You can use async/await or any function that returns a Promise
+  const makeBet = async (
+    sender: string,
+    receiver: string,
+    betAmount: number
+  ) => {
+    let payTxn = algosdk.makePaymentTxnWithSuggestedParams(
+      sender,
+      receiver,
+      betAmount,
+      undefined,
+      undefined,
+      params
+    );
+    let callTxn = algosdk.makeApplicationNoOpTxn(sender, params, 58668101, [
+      new Uint8Array([pos.colorChoosen - 1]),
+    ]); // replace 58668101 with mainnet appid later, bet_type is int from 0-2
+    let group = algosdk.assignGroupID([payTxn, callTxn]);
+
+    let signedPayTxn = connection.signTransaction(payTxn.toByte()); // however myalgo handles this
+    let signedCallTxn = connection.signTransaction(payTxn.toByte()); // however myalgo handles this too
+    let finalTxn = await algodClient
+      .sendRawTransaction([
+        (await signedPayTxn).blob,
+        (await signedCallTxn).blob,
+      ])
+      .do();
+  };
+
   return (
     <div className="AddBet pt-2">
       <div className="flex flex-row w-full mt-4 mb-2 text-base items-center">
@@ -70,7 +98,18 @@ function AddBet() {
         <span className="grow inline-block align-middle ">
           <div className="flex justify-end ">
             {" "}
-            <button className="bg-blue-500 rounded  py-1.5 px-3 ">
+            <button
+              onClick={() => {
+                if (isValid()) {
+                  console.log(params);
+                }
+              }}
+              className={
+                isValid()
+                  ? "bg-blue-500 hover:bg-blue-200 shadow-2x rounded py-1.5 px-3 "
+                  : "bg-gray-600 cursor-not-allowed text-gray-400 rounded py-1.5 px-3 "
+              }
+            >
               Submit and Sign Transaction
             </button>
           </div>
