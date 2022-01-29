@@ -126,7 +126,7 @@ def exec_txn(client, txn, private_key):
     tx_id = signed_txn.transaction.get_txid()
 
     client.send_transactions([signed_txn])
-    wait_for_confirmation(client, tx_id, 5)
+    wait_for_confirmation(client, tx_id, 10)
 
 
 def exec_gtxn(client, txns, private_key):
@@ -197,6 +197,8 @@ def main():
 
     pay_txn = transaction.PaymentTxn(sender, algod_client.suggested_params(
     ), get_application_address(app_id), 10000)
+
+    print(get_application_address(app_id) + " appaddress")
 
     roulette_txn = call_app(algod_client, creator_private_key,
                     app_id, [1])

@@ -27,6 +27,7 @@ def approval_program():
             )), Int(0), Int(8))) % Int(38)
 
     payout = ScratchVar(TealType.uint64)
+    bank = ScratchVar(TealType.bytes)
 
     @Subroutine(TealType.uint64)
     def calculate_payout(bet, result):  # 0 is zero, 1 is odd, 2 is even
@@ -76,11 +77,14 @@ def approval_program():
                 InnerTxnBuilder.SetFields({
                     TxnField.type_enum: TxnType.Payment,
                     TxnField.amount: Gtxn[0].amount() / Int(2),
-                    TxnField.receiver: Global.creator_address()
+                    # TxnField.receiver: Global.creator_address(),
+                    TxnField.receiver: Addr("Q35MIKJ6W7KX2HOVRMUL4TLKDXVGBEJ2UJKYOQUDOYVOZLAVXA3IOQFCKU"),
                 }),
                 InnerTxnBuilder.Submit(),
             ])
         ),
+
+        
         # App.globalPut(Bytes("random"), payout.load()),
 
         Approve(),

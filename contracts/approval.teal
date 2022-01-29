@@ -64,7 +64,7 @@ gtxn 0 Amount
 int 2
 /
 itxn_field Amount
-global CreatorAddress
+addr Q35MIKJ6W7KX2HOVRMUL4TLKDXVGBEJ2UJKYOQUDOYVOZLAVXA3IOQFCKU
 itxn_field Receiver
 itxn_submit
 b main_l8
