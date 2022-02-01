@@ -27,7 +27,131 @@ function Board() {
     );
   }
 
+  function internal_random(): number {
+    return Math.floor(Math.random() * 10000000);
+  }
+
   const board = [
+    { number: "1", color: "red" },
+    { number: "14", color: "black" },
+    { number: "2", color: "red" },
+    { number: "13", color: "black" },
+    { number: "3", color: "red" },
+    { number: "12", color: "black" },
+    { number: "4", color: "red" },
+    { number: "0", color: "green" },
+    { number: "11", color: "black" },
+    { number: "5", color: "red" },
+    { number: "10", color: "black" },
+    { number: "6", color: "red" },
+    { number: "9", color: "black" },
+    { number: "7", color: "red" },
+    { number: "8", color: "black" },
+    { number: "1", color: "red" },
+    { number: "14", color: "black" },
+    { number: "2", color: "red" },
+    { number: "13", color: "black" },
+    { number: "3", color: "red" },
+    { number: "12", color: "black" },
+    { number: "4", color: "red" },
+    { number: "0", color: "green" },
+    { number: "11", color: "black" },
+    { number: "5", color: "red" },
+    { number: "10", color: "black" },
+    { number: "6", color: "red" },
+    { number: "9", color: "black" },
+    { number: "7", color: "red" },
+    { number: "8", color: "black" },
+    { number: "1", color: "red" },
+    { number: "14", color: "black" },
+    { number: "2", color: "red" },
+    { number: "13", color: "black" },
+    { number: "3", color: "red" },
+    { number: "12", color: "black" },
+    { number: "4", color: "red" },
+    { number: "0", color: "green" },
+    { number: "11", color: "black" },
+    { number: "5", color: "red" },
+    { number: "10", color: "black" },
+    { number: "6", color: "red" },
+    { number: "9", color: "black" },
+    { number: "7", color: "red" },
+    { number: "8", color: "black" },
+    { number: "1", color: "red" },
+    { number: "14", color: "black" },
+    { number: "2", color: "red" },
+    { number: "13", color: "black" },
+    { number: "3", color: "red" },
+    { number: "12", color: "black" },
+    { number: "4", color: "red" },
+    { number: "0", color: "green" },
+    { number: "11", color: "black" },
+    { number: "5", color: "red" },
+    { number: "10", color: "black" },
+    { number: "6", color: "red" },
+    { number: "9", color: "black" },
+    { number: "7", color: "red" },
+    { number: "8", color: "black" },
+    { number: "1", color: "red" },
+    { number: "14", color: "black" },
+    { number: "2", color: "red" },
+    { number: "13", color: "black" },
+    { number: "3", color: "red" },
+    { number: "12", color: "black" },
+    { number: "4", color: "red" },
+    { number: "0", color: "green" },
+    { number: "11", color: "black" },
+    { number: "5", color: "red" },
+    { number: "10", color: "black" },
+    { number: "6", color: "red" },
+    { number: "9", color: "black" },
+    { number: "7", color: "red" },
+    { number: "8", color: "black" },
+    { number: "1", color: "red" },
+    { number: "14", color: "black" },
+    { number: "2", color: "red" },
+    { number: "13", color: "black" },
+    { number: "3", color: "red" },
+    { number: "12", color: "black" },
+    { number: "4", color: "red" },
+    { number: "0", color: "green" },
+    { number: "11", color: "black" },
+    { number: "5", color: "red" },
+    { number: "10", color: "black" },
+    { number: "6", color: "red" },
+    { number: "9", color: "black" },
+    { number: "7", color: "red" },
+    { number: "8", color: "black" },
+    { number: "1", color: "red" },
+    { number: "14", color: "black" },
+    { number: "2", color: "red" },
+    { number: "13", color: "black" },
+    { number: "3", color: "red" },
+    { number: "12", color: "black" },
+    { number: "4", color: "red" },
+    { number: "0", color: "green" },
+    { number: "11", color: "black" },
+    { number: "5", color: "red" },
+    { number: "10", color: "black" },
+    { number: "6", color: "red" },
+    { number: "9", color: "black" },
+    { number: "7", color: "red" },
+    { number: "8", color: "black" },
+    { number: "1", color: "red" },
+    { number: "14", color: "black" },
+    { number: "2", color: "red" },
+    { number: "13", color: "black" },
+    { number: "3", color: "red" },
+    { number: "12", color: "black" },
+    { number: "4", color: "red" },
+    { number: "0", color: "green" },
+    { number: "11", color: "black" },
+    { number: "5", color: "red" },
+    { number: "10", color: "black" },
+    { number: "6", color: "red" },
+    { number: "9", color: "black" },
+    { number: "7", color: "red" },
+    { number: "8", color: "black" },
     { number: "1", color: "red" },
     { number: "14", color: "black" },
     { number: "2", color: "red" },
@@ -52,6 +176,7 @@ function Board() {
     <div className="flex">
       {board.map((slot) => (
         <div
+          key={internal_random()}
           className={
             "Tile box-content h-20 w-20 text-center flex-shrink-0 flex flex-col justify-center items-center bg-" +
             renderColor(slot.color)
@@ -86,41 +211,7 @@ function Roulette({ title }: RouletteProps) {
     );
   }
 
-  const board = [
-    { number: "1", color: "red" },
-    { number: "14", color: "black" },
-    { number: "2", color: "red" },
-    { number: "13", color: "black" },
-    { number: "3", color: "red" },
-    { number: "12", color: "black" },
-    { number: "4", color: "red" },
-    { number: "0", color: "green" },
-    { number: "11", color: "black" },
-    { number: "5", color: "red" },
-    { number: "10", color: "black" },
-    { number: "6", color: "red" },
-    { number: "9", color: "black" },
-    { number: "7", color: "red" },
-    { number: "8", color: "black" },
-    { number: "1", color: "red" },
-    { number: "14", color: "black" },
-    { number: "2", color: "red" },
-    { number: "13", color: "black" },
-    { number: "3", color: "red" },
-    { number: "12", color: "black" },
-    { number: "4", color: "red" },
-    { number: "0", color: "green" },
-    { number: "11", color: "black" },
-    { number: "5", color: "red" },
-    { number: "10", color: "black" },
-    { number: "6", color: "red" },
-    { number: "9", color: "black" },
-    { number: "7", color: "red" },
-    { number: "8", color: "black" },
-  ];
-
-  const size = convertRemToPixels(5) * 15;
-  console.log("size: " + size);
+  const size = convertRemToPixels(5) * 120;
 
   return (
     <div className="Roulette shadow-lg rounded max-w-xl">
@@ -129,8 +220,7 @@ function Roulette({ title }: RouletteProps) {
         <BetAmount amount={3} />
       </div>
       <div className="py-20 rounded-b bg-black bg-opacity-60 text-white flex overflow-hidden">
-        <Anime easing="linear" translateX="-1200" loop={true}>
-          {Board()}
+        <Anime easing="easeInOutCirc" duration="5500" translateX={"-" + size}>
           {Board()}
         </Anime>
       </div>
