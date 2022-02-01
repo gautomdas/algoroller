@@ -98,7 +98,7 @@ function AddBet() {
         >
           {renderColor(pos.colorChoosen)}
         </div>
-        <span className="grow inline-block align-middle ">
+        <span className="pl-10 grow inline-block align-middle ">
           <div className="flex justify-end ">
             {" "}
             <button

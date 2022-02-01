@@ -12,9 +12,9 @@ import { accountsState, paramsState } from "./store";
 let timeoutResolution: NodeJS.Timeout | null = null;
 
 function App() {
-  const [params, setParams] = useRecoilState<algosdk.SuggestedParams>(paramsState);
+  const [params, setParams] =
+    useRecoilState<algosdk.SuggestedParams>(paramsState);
   const [accounts, setAccounts] = useRecoilState<Accounts[]>(accountsState);
-
 
   const onCompleteConnect = (accounts: Accounts[]): void => {
     setAccounts(accounts);
@@ -46,7 +46,7 @@ function App() {
         connection={connection}
         onComplete={onCompleteConnect}
       />
-      <div className="xl:px-32 2xl:px-48 flex flex-grow pt-12">
+      <div className="xl:px-32 2xl:px-48 flex flex-grow pt-12 justify-center">
         <Roulette title="new" />
       </div>
     </div>
