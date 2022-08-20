@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import BetAmount from "./BetAmount";
 
 import Anime from "react-anime";
+import { Motion, spring } from "react-motion";
 
 type RouletteProps = {
   title: string;
 };
 
-function Board() {
+function Board(x: number) {
   function renderColor(param: string): string {
     switch (param) {
       case "red":
@@ -170,10 +171,16 @@ function Board() {
   ];
 
   const size = convertRemToPixels(5) * 15;
-  console.log("size: " + size);
+  //console.log("size: " + size);
 
   return (
-    <div className="flex">
+    <div
+      className="flex"
+      style={{
+        WebkitTransform: `translate3d(${x}px, 0, 0)`,
+        transform: `translate3d(${x}px, 0, 0)`,
+      }}
+    >
       {board.map((slot) => (
         <div
           key={internal_random()}
@@ -192,26 +199,16 @@ function Board() {
 }
 
 function Roulette({ title }: RouletteProps) {
-  function renderColor(param: string): string {
-    switch (param) {
-      case "red":
-        return "red-500";
-      case "black":
-        return "black";
-      case "green":
-        return "green-500";
-      default:
-        return "";
-    }
-  }
-
   function convertRemToPixels(rem: number): number {
     return (
       rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
     );
   }
 
-  const size = convertRemToPixels(5) * 120;
+  const size = convertRemToPixels(5) * 109;
+
+  const [open, setOpen] = useState(false);
+  const [reset, setReset] = useState(true);
 
   return (
     <div className="Roulette shadow-lg rounded max-w-xl">
@@ -219,10 +216,42 @@ function Roulette({ title }: RouletteProps) {
         <div className="text-navy-200">Bet Amount</div>
         <BetAmount amount={3} />
       </div>
-      <div className="py-20 rounded-b bg-black bg-opacity-60 text-white flex overflow-hidden">
-        <Anime easing="easeInOutCirc" duration="5500" translateX={"-" + size}>
-          {Board()}
-        </Anime>
+
+      <div>
+        <button
+          onClick={() => {
+            setReset(true);
+            setOpen(true);
+            console.log(size);
+          }}
+        >
+          Toggle
+        </button>
+        <button
+          onClick={() => {
+            setReset(false);
+          }}
+        >
+          Reset
+        </button>
+      </div>
+      <div className="py-20 rounded-b bg-black bg-opacity-60 text-white">
+        <p className="text-center">&#9660;</p>
+        <div className="bg-black bg-opacity-60 text-white flex overflow-hidden">
+          <Motion
+            style={{
+              x: reset
+                ? spring(open ? -size : 0, {
+                    stiffness: 120,
+                    damping: 40,
+                  })
+                : 0,
+            }}
+          >
+            {({ x }) => Board(x)}
+          </Motion>
+        </div>
+        <p className="text-center">&#9650;</p>
       </div>
     </div>
   );

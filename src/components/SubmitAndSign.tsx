@@ -51,7 +51,7 @@ function AddBet() {
 
   function isValid(): boolean {
     if (pos.betAmount == 0 || renderColor(pos.colorChoosen) === "") {
-      return false;
+      return true; // change back
     }
     return true;
   }
@@ -66,9 +66,13 @@ function AddBet() {
       undefined,
       params
     );
-    let callTxn = algosdk.makeApplicationNoOpTxn(sender, params, 58668101, [
-      new Uint8Array([pos.colorChoosen - 1]),
-    ]); // replace 58668101 with mainnet appid later, bet_type is int from 0-2
+    let callTxn = algosdk.makeApplicationNoOpTxn(
+      sender,
+      params,
+      58668101,
+      [new Uint8Array([pos.colorChoosen - 1])],
+      ["Q35MIKJ6W7KX2HOVRMUL4TLKDXVGBEJ2UJKYOQUDOYVOZLAVXA3IOQFCKU"]
+    ); // replace 58668101 with mainnet appid later, bet_type is int from 0-2
     let group = algosdk.assignGroupID([payTxn, callTxn]);
 
     let signedPayTxn = await connection.signTransaction(payTxn.toByte());
@@ -80,6 +84,8 @@ function AddBet() {
     let finalTxn = await algodClient
       .sendRawTransaction([signedPayTxn.blob, signedCallTxn.blob])
       .do();
+
+    console.log("Transaction Succeeded");
 
     console.log(finalTxn);
   };

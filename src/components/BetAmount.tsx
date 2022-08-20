@@ -1,6 +1,6 @@
 import React from "react";
 import SubmitAmount from "./SubmitAmount";
-import AddBet from "./AddBet";
+import AddBet from "./SubmitAndSign";
 
 import { useRecoilState } from "recoil";
 import { betState } from "../store";
