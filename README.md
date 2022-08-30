@@ -6,7 +6,7 @@ algoroller is a full stack app for playing roulette on the Algorand blockchain. 
 
 A preview below: 
 
-![Preview](/Users/gautom/Documents/algoroller/preview.gif)
+![Preview](https://s6.gifyu.com/images/preview.gif)
 
 
 
