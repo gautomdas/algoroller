@@ -218,7 +218,7 @@ function Roulette({ title }: RouletteProps) {
       </div>
 
       <div>
-        <button
+        {/* <button
           onClick={() => {
             setReset(true);
             setOpen(true);
@@ -234,6 +234,7 @@ function Roulette({ title }: RouletteProps) {
         >
           Reset
         </button>
+         */}
       </div>
       <div className="py-20 rounded-b bg-black bg-opacity-60 text-white">
         <p className="text-center">&#9660;</p>
